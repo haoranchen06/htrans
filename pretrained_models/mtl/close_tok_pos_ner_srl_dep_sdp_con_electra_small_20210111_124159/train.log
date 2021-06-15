@@ -1,0 +1,542 @@
+{
+  "adam_epsilon": 1e-08,
+  "batch_size": null,
+  "classpath": "hanlp.components.mtl.multi_task_learning.MultiTaskLearning",
+  "con": {
+    "sep_is_eos": true,
+    "cls_is_bos": true,
+    "separate_optimizer": false,
+    "lr": 0.001,
+    "use_raw_hidden_states": false,
+    "scalar_mix": null,
+    "dependencies": "tok",
+    "sampler_builder": {
+      "classpath": "hanlp.common.dataset.SortingSamplerBuilder",
+      "batch_max_tokens": null,
+      "batch_size": 32
+    },
+    "no_subcategory": true,
+    "mlp_dropout": 0.33,
+    "n_mlp_label": 100,
+    "n_mlp_span": 500,
+    "mbr": true,
+    "equal": {
+      "ADVP": "PRT"
+    },
+    "delete": [
+      "",
+      ":",
+      "``",
+      "''",
+      ".",
+      "?",
+      "!",
+      "-NONE-",
+      "TOP",
+      ",",
+      "S1"
+    ],
+    "classpath": "hanlp.components.mtl.tasks.constituency.CRFConstituencyParsing"
+  },
+  "decoder_grad_norm": null,
+  "dep": {
+    "sep_is_eos": false,
+    "cls_is_bos": true,
+    "separate_optimizer": false,
+    "lr": 0.001,
+    "use_raw_hidden_states": false,
+    "scalar_mix": null,
+    "dependencies": "tok",
+    "sampler_builder": {
+      "classpath": "hanlp.common.dataset.SortingSamplerBuilder",
+      "batch_max_tokens": null,
+      "batch_size": 32
+    },
+    "max_seq_len": null,
+    "use_pos": false,
+    "decay_steps": 5000,
+    "decay": 0.75,
+    "epsilon": 1e-12,
+    "nu": 0.9,
+    "mu": 0.9,
+    "mlp_dropout": 0.33,
+    "n_mlp_rel": 100,
+    "n_mlp_arc": 500,
+    "proj": false,
+    "tree": true,
+    "punct": true,
+    "classpath": "hanlp.components.mtl.tasks.dep.BiaffineDependencyParsing"
+  },
+  "encoder": {
+    "classpath": "hanlp.layers.embeddings.contextual_word_embedding.ContextualWordEmbedding",
+    "truncate_long_sequences": false,
+    "transformer_args": null,
+    "trainable": true,
+    "ret_subtokens_group": false,
+    "ret_subtokens": false,
+    "ret_raw_hidden_states": false,
+    "sep_is_eos": false,
+    "cls_is_bos": false,
+    "max_sequence_length": 512,
+    "word_dropout": 0.1,
+    "scalar_mix": null,
+    "average_subwords": true,
+    "transformer": "hfl/chinese-electra-180g-small-discriminator",
+    "field": "token"
+  },
+  "encoder_grad_norm": null,
+  "encoder_lr": 0.0001,
+  "epochs": 30,
+  "finetune": false,
+  "grad_norm": 1,
+  "gradient_accumulation": 1,
+  "hanlp_version": "2.1.0-alpha.0",
+  "lr": 0.001,
+  "ner/msra": {
+    "sep_is_eos": false,
+    "cls_is_bos": false,
+    "separate_optimizer": false,
+    "lr": 0.001,
+    "use_raw_hidden_states": false,
+    "scalar_mix": null,
+    "dependencies": "tok",
+    "sampler_builder": {
+      "classpath": "hanlp.common.dataset.SortingSamplerBuilder",
+      "batch_max_tokens": null,
+      "batch_size": 32
+    },
+    "token_key": "token",
+    "secondary_encoder": {
+      "k_as_x": true,
+      "after_norm": true,
+      "dropout_attn": 0.1,
+      "dropout": 0.1,
+      "feedforward_dim": 128,
+      "num_heads": 4,
+      "num_layers": 2,
+      "in_features": 256,
+      "classpath": "hanlp.layers.transformers.relative_transformer.RelativeTransformerEncoder"
+    },
+    "delimiter_in_entity": null,
+    "crf": false,
+    "tagging_scheme": null,
+    "hard_constraint": true,
+    "char_level": true,
+    "sent_delimiter": null,
+    "max_seq_len": 510,
+    "delimiter": null,
+    "classpath": "hanlp.components.mtl.tasks.ner.tag_ner.TaggingNamedEntityRecognition"
+  },
+  "ner/ontonotes": {
+    "sep_is_eos": false,
+    "cls_is_bos": false,
+    "separate_optimizer": false,
+    "lr": 0.001,
+    "use_raw_hidden_states": false,
+    "scalar_mix": null,
+    "dependencies": "tok",
+    "sampler_builder": {
+      "classpath": "hanlp.common.dataset.SortingSamplerBuilder",
+      "batch_max_tokens": null,
+      "batch_size": 32
+    },
+    "token_key": "token",
+    "secondary_encoder": {
+      "k_as_x": true,
+      "after_norm": true,
+      "dropout_attn": 0.1,
+      "dropout": 0.1,
+      "feedforward_dim": 128,
+      "num_heads": 4,
+      "num_layers": 2,
+      "in_features": 256,
+      "classpath": "hanlp.layers.transformers.relative_transformer.RelativeTransformerEncoder"
+    },
+    "delimiter_in_entity": null,
+    "crf": false,
+    "tagging_scheme": null,
+    "hard_constraint": true,
+    "char_level": true,
+    "sent_delimiter": null,
+    "max_seq_len": 510,
+    "delimiter": null,
+    "classpath": "hanlp.components.mtl.tasks.ner.tag_ner.TaggingNamedEntityRecognition"
+  },
+  "ner/pku": {
+    "sep_is_eos": false,
+    "cls_is_bos": false,
+    "separate_optimizer": false,
+    "lr": 0.001,
+    "use_raw_hidden_states": false,
+    "scalar_mix": null,
+    "dependencies": "tok",
+    "sampler_builder": {
+      "classpath": "hanlp.common.dataset.SortingSamplerBuilder",
+      "batch_max_tokens": null,
+      "batch_size": 32
+    },
+    "token_key": "token",
+    "secondary_encoder": {
+      "k_as_x": true,
+      "after_norm": true,
+      "dropout_attn": 0.1,
+      "dropout": 0.1,
+      "feedforward_dim": 128,
+      "num_heads": 4,
+      "num_layers": 2,
+      "in_features": 256,
+      "classpath": "hanlp.layers.transformers.relative_transformer.RelativeTransformerEncoder"
+    },
+    "delimiter_in_entity": null,
+    "crf": false,
+    "tagging_scheme": null,
+    "hard_constraint": true,
+    "char_level": true,
+    "sent_delimiter": null,
+    "max_seq_len": 510,
+    "delimiter": null,
+    "classpath": "hanlp.components.mtl.tasks.ner.tag_ner.TaggingNamedEntityRecognition"
+  },
+  "patience": 0.5,
+  "pos/863": {
+    "sep_is_eos": false,
+    "cls_is_bos": false,
+    "separate_optimizer": false,
+    "lr": 0.001,
+    "use_raw_hidden_states": false,
+    "scalar_mix": null,
+    "dependencies": "tok",
+    "sampler_builder": {
+      "classpath": "hanlp.common.dataset.SortingSamplerBuilder",
+      "batch_max_tokens": null,
+      "batch_size": 32
+    },
+    "token_key": "token",
+    "crf": false,
+    "tagging_scheme": null,
+    "hard_constraint": true,
+    "char_level": true,
+    "sent_delimiter": null,
+    "max_seq_len": 510,
+    "delimiter": null,
+    "classpath": "hanlp.components.mtl.tasks.pos.TransformerTagging"
+  },
+  "pos/ctb": {
+    "sep_is_eos": false,
+    "cls_is_bos": false,
+    "separate_optimizer": false,
+    "lr": 0.001,
+    "use_raw_hidden_states": false,
+    "scalar_mix": null,
+    "dependencies": "tok",
+    "sampler_builder": {
+      "classpath": "hanlp.common.dataset.SortingSamplerBuilder",
+      "batch_max_tokens": null,
+      "batch_size": 32
+    },
+    "token_key": "token",
+    "crf": false,
+    "tagging_scheme": null,
+    "hard_constraint": true,
+    "char_level": true,
+    "sent_delimiter": null,
+    "max_seq_len": 510,
+    "delimiter": null,
+    "classpath": "hanlp.components.mtl.tasks.pos.TransformerTagging"
+  },
+  "pos/pku": {
+    "sep_is_eos": false,
+    "cls_is_bos": false,
+    "separate_optimizer": false,
+    "lr": 0.001,
+    "use_raw_hidden_states": false,
+    "scalar_mix": null,
+    "dependencies": "tok",
+    "sampler_builder": {
+      "classpath": "hanlp.common.dataset.SortingSamplerBuilder",
+      "batch_max_tokens": null,
+      "batch_size": 32
+    },
+    "token_key": "token",
+    "crf": false,
+    "tagging_scheme": null,
+    "hard_constraint": true,
+    "char_level": true,
+    "sent_delimiter": null,
+    "max_seq_len": 510,
+    "delimiter": null,
+    "classpath": "hanlp.components.mtl.tasks.pos.TransformerTagging"
+  },
+  "prefetch": null,
+  "sdp": {
+    "sep_is_eos": false,
+    "cls_is_bos": true,
+    "separate_optimizer": false,
+    "lr": 0.001,
+    "use_raw_hidden_states": false,
+    "scalar_mix": null,
+    "dependencies": "tok",
+    "sampler_builder": {
+      "classpath": "hanlp.common.dataset.SortingSamplerBuilder",
+      "batch_max_tokens": null,
+      "batch_size": 32
+    },
+    "use_pos": false,
+    "decay_steps": 5000,
+    "decay": 0.75,
+    "epsilon": 1e-12,
+    "nu": 0.9,
+    "mu": 0.9,
+    "mlp_dropout": 0.33,
+    "n_mlp_rel": 100,
+    "n_mlp_arc": 500,
+    "no_zero_head": null,
+    "single_root": true,
+    "apply_constraint": true,
+    "pad_rel": null,
+    "tree": true,
+    "punct": true,
+    "classpath": "hanlp.components.mtl.tasks.sdp.BiaffineSemanticDependencyParsing"
+  },
+  "seed": 1608176702,
+  "srl": {
+    "sep_is_eos": false,
+    "cls_is_bos": false,
+    "separate_optimizer": false,
+    "lr": 0.001,
+    "use_raw_hidden_states": false,
+    "scalar_mix": null,
+    "dependencies": "tok",
+    "sampler_builder": {
+      "classpath": "hanlp.common.dataset.SortingSamplerBuilder",
+      "batch_max_tokens": 1280,
+      "batch_size": 32
+    },
+    "doc_level_offset": false,
+    "loss_reduction": "mean",
+    "mlp_dropout": 0.2,
+    "n_mlp_rel": 300,
+    "crf": true,
+    "classpath": "hanlp.components.mtl.tasks.srl.bio_srl.SpanBIOSemanticRoleLabeling"
+  },
+  "task_names": [
+    "tok/fine",
+    "tok/coarse",
+    "pos/ctb",
+    "pos/pku",
+    "pos/863",
+    "ner/pku",
+    "ner/msra",
+    "ner/ontonotes",
+    "srl",
+    "dep",
+    "sdp",
+    "con"
+  ],
+  "tasks_need_custom_eval": null,
+  "tau": 0.1,
+  "tok/coarse": {
+    "sep_is_eos": true,
+    "cls_is_bos": true,
+    "separate_optimizer": false,
+    "lr": 0.001,
+    "use_raw_hidden_states": false,
+    "scalar_mix": null,
+    "dependencies": null,
+    "sampler_builder": {
+      "classpath": "hanlp.common.dataset.SortingSamplerBuilder",
+      "batch_max_tokens": null,
+      "batch_size": 32
+    },
+    "token_key": "token",
+    "crf": false,
+    "tagging_scheme": "BMES",
+    "transform": null,
+    "hard_constraint": true,
+    "char_level": true,
+    "sent_delimiter": null,
+    "max_seq_len": 510,
+    "delimiter": null,
+    "classpath": "hanlp.components.mtl.tasks.tok.tag_tok.TaggingTokenization"
+  },
+  "tok/fine": {
+    "sep_is_eos": true,
+    "cls_is_bos": true,
+    "separate_optimizer": false,
+    "lr": 0.001,
+    "use_raw_hidden_states": false,
+    "scalar_mix": null,
+    "dependencies": null,
+    "sampler_builder": {
+      "classpath": "hanlp.common.dataset.SortingSamplerBuilder",
+      "batch_max_tokens": null,
+      "batch_size": 32
+    },
+    "token_key": "token",
+    "crf": false,
+    "tagging_scheme": "BMES",
+    "transform": null,
+    "hard_constraint": true,
+    "char_level": true,
+    "sent_delimiter": null,
+    "max_seq_len": 510,
+    "delimiter": null,
+    "classpath": "hanlp.components.mtl.tasks.tok.tag_tok.TaggingTokenization"
+  },
+  "transform": {
+    "classpath": "hanlp.common.transform.NormalizeCharacter",
+    "dst": "token",
+    "src": "token",
+    "mapper": "https://file.hankcs.com/corpus/char_table.json.zip"
+  },
+  "warmup_steps": 0.1,
+  "weight_decay": 0.0
+}
+1 / 12 Building trn dataset for tok/fine ...
+tag[4] = ['B', 'E', 'S', 'M']
+2 / 12 Building trn dataset for tok/coarse ...
+tag[4] = ['B', 'E', 'S', 'M']
+3 / 12 Building trn dataset for pos/ctb ...
+tag[37] = ['NR', 'NN', 'CC', 'VV', 'NT', 'PU', 'LC', 'AS', 'ETC', 'DEC', 'CD', 'M', 'DEG', 'JJ', 'VC', 'AD', 'P', 'PN', 'VA', 'DEV', 'DT', 'SB', 'OD', 'VE', 'CS', 'MSP', 'BA', 'FW', 'LB', 'DER', 'SP', 'IJ', 'ON', 'URL', 'NOI', 'EM', 'IC']
+4 / 12 Building trn dataset for pos/pku ...
+tag[42] = ['v', 'n', 'u', 'a', 'w', 't', 'm', 'q', 'nt', 'nr', 'Vg', 'k', 'p', 'f', 'r', 'vn', 'ns', 'c', 's', 'd', 'ad', 'j', 'l', 'an', 'b', 'i', 'vd', 'nz', 'Ng', 'z', 'Tg', 'y', 'nx', 'Ag', 'o', 'Dg', 'h', 'Rg', 'e', 'Mg', 'Bg', 'Yg']
+5 / 12 Building trn dataset for pos/863 ...
+tag[34] = ['w', 'r', 'd', 'v', 'a', 'u', 'q', 'n', 'i', 'm', 'c', 'nh', 'p', 'nd', 'nt', 'e', 'nl', 'x', 'k', 'ns', 'ni', 'o', 'j', 'h', 'nz', 'vu', 'vl', 'nhf', 'vd', 'nhs', 'ws', 'mq', 'f', 'g']
+6 / 12 Building trn dataset for ner/pku ...
+tag[10] = ['O', 'S-nt', 'S-nr', 'B-nt', 'I-nt', 'E-nt', 'B-ns', 'I-ns', 'E-ns', 'S-ns']
+Guess the delimiter between tokens in named entity could be "". If not, specify `delimiter_in_entity` in `fit()`
+7 / 12 Building trn dataset for ner/msra ...
+tag[33] = ['O', 'S-INTEGER', 'S-ORDINAL', 'S-LOCATION', 'S-DATE', 'S-ORGANIZATION', 'B-LOCATION', 'M-LOCATION', 'E-LOCATION', 'S-PERSON', 'S-MONEY', 'S-DURATION', 'B-ORGANIZATION', 'E-ORGANIZATION', 'S-TIME', 'M-ORGANIZATION', 'S-LENGTH', 'S-AGE', 'S-FREQUENCY', 'S-ANGLE', 'S-PHONE', 'S-PERCENT', 'S-FRACTION', 'S-WEIGHT', 'S-AREA', 'S-CAPACTITY', 'S-DECIMAL', 'S-MEASURE', 'S-SPEED', 'S-TEMPERATURE', 'S-POSTALCODE', 'S-RATE', 'S-WWW']
+Guess the delimiter between tokens in named entity could be "". If not, specify `delimiter_in_entity` in `fit()`
+8 / 12 Building trn dataset for ner/ontonotes ...
+tag[73] = ['O', 'B-WORK_OF_ART', 'I-WORK_OF_ART', 'E-WORK_OF_ART', 'S-NORP', 'S-EVENT', 'S-LOC', 'S-FAC', 'S-ORG', 'S-GPE', 'B-EVENT', 'I-EVENT', 'E-EVENT', 'S-DATE', 'B-ORG', 'E-ORG', 'S-PERSON', 'B-DATE', 'E-DATE', 'I-DATE', 'B-FAC', 'E-FAC', 'B-QUANTITY', 'E-QUANTITY', 'B-LOC', 'E-LOC', 'S-ORDINAL', 'S-CARDINAL', 'B-TIME', 'I-TIME', 'E-TIME', 'I-FAC', 'I-ORG', 'I-LOC', 'B-GPE', 'E-GPE', 'S-TIME', 'B-LAW', 'I-LAW', 'E-LAW', 'B-PERSON', 'E-PERSON', 'S-PERCENT', 'B-MONEY', 'I-MONEY', 'E-MONEY', 'I-QUANTITY', 'S-LANGUAGE', 'I-GPE', 'S-WORK_OF_ART']
+Guess the delimiter between tokens in named entity could be "". If not, specify `delimiter_in_entity` in `fit()`
+9 / 12 Building trn dataset for srl ...
+srl[135] = ['O', 'B-ARG1', 'I-ARG1', 'B-ARG0', 'I-ARG0', 'B-C-ARG1', 'B-ARGM-TMP', 'I-ARGM-TMP', 'B-ARGM-MNR', 'B-ARGM-ADV', 'B-ARGM-DIS', 'B-ARGM-DIR', 'I-ARGM-DIR', 'I-ARGM-ADV', 'B-ARGM-EXT', 'I-ARGM-EXT', 'B-ARGM-BNF', 'I-ARGM-BNF', 'B-ARG2', 'I-ARG2', 'B-ARGM-LOC', 'I-ARGM-LOC', 'B-C-ARG0', 'B-ARGM-PRP', 'I-ARGM-PRP', 'B-ARG1-QTY', 'I-ARG1-QTY', 'I-ARGM-MNR', 'B-ARGM-TPC', 'I-ARGM-TPC', 'B-Sup', 'B-ARG0-PSR', 'I-ARG0-PSR', 'B-ARG0-PSE', 'B-ARG1-PRD', 'I-ARG1-PRD', 'B-ARGM-CND', 'I-ARGM-CND', 'B-ARG3', 'I-ARG0-PSE', 'B-ARG2-PSR', 'I-ARG2-PSR', 'B-ARG2-PSE', 'I-ARG2-PSE', 'B-ARG1-PSR', 'I-ARG1-PSR', 'B-ARG1-PSE', 'I-ARG1-PSE', 'B-ARG0-CRD', 'I-ARG0-CRD']
+Guess the delimiter between tokens could be "". If not, specify `delimiter` in `fit()`
+10 / 12 Building trn dataset for dep ...
+rel[46] = ['nn', 'conj', 'cc', 'nsubj', 'root', 'dep', 'punct', 'lobj', 'loc', 'comod', 'asp', 'rcmod', 'etc', 'dobj', 'cpm', 'nummod', 'clf', 'assmod', 'assm', 'amod', 'top', 'attr', 'advmod', 'tmod', 'neg', 'prep', 'pobj', 'cop', 'dvpmod', 'dvpm', 'lccomp', 'plmod', 'det', 'pass', 'ordmod', 'pccomp', 'range', 'ccomp', 'xsubj', 'mmod', 'prnmod', 'rcomp', 'vmod', 'prtmod', 'ba', 'nsubjpass']
+11 / 12 Building trn dataset for sdp ...
+rel[157] = ['Nmod', 'Pat', 'Exp', 'mConj', 'Prod', 'eCoo', 'Root', 'Orig', 'Loc', 'Tmod', 'Time', 'mPunc', 'Agt', 'mTime', 'eSucc', 'rExp', 'Desc', 'mMaj', 'Datv', 'mAux', 'Quan', 'Qp', 'Cont', 'eResu', 'dExp', 'eCau', 'dDesc', 'Clas', 'Mann', 'mNeg', 'rCont', 'mPrep', 'TDur', 'dTime', 'Seq', 'eProg', 'Poss', 'ePurp', 'Sco', 'Dir', 'mMod', 'mDegr', 'Tfin', 'eAdvt', 'mRang', 'dCont', 'Accd', 'dMann', 'Belg', 'rLoc']
+Training set properties: single_root = True, no_zero_head = True, root_rel = Root
+12 / 12 Building trn dataset for con ...
+chart[260] = ['NP|<>', 'NP', 'IP', 'VP', 'FRAG|<>', 'FRAG', 'IP|<>', 'LCP', 'VP|<>', 'LCP|<>', 'VCD|<>', 'VCD', 'IP+VP', 'CP+CP', 'CP|<>', 'QP|<>', 'QP', 'CLP', 'DNP', 'DNP|<>', 'ADJP', 'ADVP', 'NP+CP+CP', 'PP|<>', 'PP', 'DVP', 'DVP|<>', 'CP', 'VP+VP', 'ADVP|<>', 'DP', 'DP|<>', 'CP+IP+VP', 'IP+IP', 'PRN|<>', 'PRN', 'VRD|<>', 'VRD', 'UCP', 'VP+VCD', 'CP+IP', 'PP+PP', 'ADJP|<>', 'VP+QP', 'VSB|<>', 'VSB', 'VP+VRD', 'VP+VSB', 'VP+PP', 'UCP|<>']
+                        Samples Distribution                        
+|     task      | #batches | %batches | #scaled | %scaled | #epoch |
+| :------------ | -------: | -------: | ------: | ------: | -----: |
+| tok/fine      |    54223 |   40.46% |   14280 |  10.66% |   3.80 |
+| tok/coarse    |    24488 |   18.27% |   13189 |   9.84% |   1.86 |
+| pos/ctb       |     3759 |    2.80% |   10935 |   8.16% |   0.34 |
+| pos/pku       |     7013 |    5.23% |   11638 |   8.68% |   0.60 |
+| pos/863       |    31147 |   23.24% |   13510 |  10.08% |   2.31 |
+| ner/pku       |     3507 |    2.62% |   10859 |   8.10% |   0.32 |
+| ner/msra      |     1444 |    1.08% |    9937 |   7.41% |   0.15 |
+| ner/ontonotes |     1280 |    0.96% |    9818 |   7.33% |   0.13 |
+| srl           |     1677 |    1.25% |   10087 |   7.53% |   0.17 |
+| dep           |     3759 |    2.80% |   10935 |   8.16% |   0.34 |
+| sdp           |      661 |    0.49% |    9190 |   6.86% |   0.07 |
+| con           |     1063 |    0.79% |    9637 |   7.19% |   0.11 |
+1 / 12 Building dev dataset for tok/fine ...
+2 / 12 Building dev dataset for tok/coarse ...
+3 / 12 Building dev dataset for pos/ctb ...
+4 / 12 Building dev dataset for pos/pku ...
+5 / 12 Building dev dataset for pos/863 ...
+6 / 12 Building dev dataset for ner/pku ...
+7 / 12 Building dev dataset for ner/msra ...
+8 / 12 Building dev dataset for ner/ontonotes ...
+9 / 12 Building dev dataset for srl ...
+10 / 12 Building dev dataset for dep ...
+11 / 12 Building dev dataset for sdp ...
+12 / 12 Building dev dataset for con ...
+Model built with 32336246/32336246 trainable/total parameters.
+Using GPUs: [0]
+Epoch 1 / 30:
+134021/134021 loss: 0.7388 ET: 3 h 57 m 20 s
+  10670/10670 loss: 0.1810 {tok/fine P: 94.40% R: 94.40% F1: 94.40%}{tok/coarse P: 93.22% R: 93.61% F1: 93.42%}{pos/ctb Accuracy:96.10%}{pos/pku Accuracy:96.39%}{pos/863 Accuracy:93.79%}{ner/pku P: 93.34% R: 95.20% F1: 94.26%}{ner/msra P: 93.89% R: 91.84% F1: 92.86%}{ner/ontonotes P: 71.77% R: 75.44% F1: 73.56%}{srl P: 69.09% R: 63.07% F1: 65.95%}{dep UAS: 83.71% LAS: 78.83%}{sdp UF: 80.92% LF: 69.17%}{con UCM: 33.36% LCM: 29.10% UP: 88.58% UR: 88.61% UF: 88.59% LP: 85.37% LR: 85.40% LF: 85.39%} ET: 5 m 55 s
+Epoch 2 / 30:
+134021/134021 loss: 0.3277 ET: 3 h 56 m 22 s
+  10670/10670 loss: 0.1685 {tok/fine P: 95.17% R: 94.93% F1: 95.05%}{tok/coarse P: 94.19% R: 94.03% F1: 94.11%}{pos/ctb Accuracy:96.28%}{pos/pku Accuracy:96.71%}{pos/863 Accuracy:94.03%}{ner/pku P: 93.84% R: 96.16% F1: 94.99%}{ner/msra P: 93.18% R: 93.64% F1: 93.41%}{ner/ontonotes P: 73.49% R: 74.87% F1: 74.17%}{srl P: 73.78% R: 65.67% F1: 69.49%}{dep UAS: 84.87% LAS: 80.39%}{sdp UF: 82.95% LF: 71.02%}{con UCM: 35.74% LCM: 31.33% UP: 88.93% UR: 89.28% UF: 89.11% LP: 85.87% LR: 86.20% LF: 86.03%} ET: 5 m 41 s
+Epoch 3 / 30:
+134021/134021 loss: 0.3150 ET: 3 h 57 m 22 s
+  10670/10670 loss: 0.1719 {tok/fine P: 95.51% R: 94.78% F1: 95.14%}{tok/coarse P: 94.44% R: 93.67% F1: 94.05%}{pos/ctb Accuracy:96.22%}{pos/pku Accuracy:96.71%}{pos/863 Accuracy:94.06%}{ner/pku P: 94.80% R: 95.41% F1: 95.10%}{ner/msra P: 94.55% R: 92.55% F1: 93.54%}{ner/ontonotes P: 70.19% R: 73.25% F1: 71.69%}{srl P: 77.61% R: 59.49% F1: 67.35%}{dep UAS: 85.06% LAS: 80.66%}{sdp UF: 82.20% LF: 70.34%}{con UCM: 35.71% LCM: 31.30% UP: 89.13% UR: 88.68% UF: 88.91% LP: 86.02% LR: 85.58% LF: 85.80%} ET: 5 m 59 s
+Epoch 4 / 30:
+134021/134021 loss: 0.2995 ET: 3 h 57 m 8 s
+  10670/10670 loss: 0.1652 {tok/fine P: 95.80% R: 94.80% F1: 95.30%}{tok/coarse P: 94.76% R: 94.19% F1: 94.47%}{pos/ctb Accuracy:96.32%}{pos/pku Accuracy:96.86%}{pos/863 Accuracy:94.26%}{ner/pku P: 94.81% R: 95.85% F1: 95.33%}{ner/msra P: 94.54% R: 92.42% F1: 93.47%}{ner/ontonotes P: 71.72% R: 76.85% F1: 74.20%}{srl P: 75.49% R: 65.33% F1: 70.05%}{dep UAS: 85.48% LAS: 81.19%}{sdp UF: 83.76% LF: 71.82%}{con UCM: 36.66% LCM: 32.44% UP: 89.18% UR: 89.19% UF: 89.19% LP: 86.09% LR: 86.10% LF: 86.10%} ET: 6 m 0 s
+Epoch 5 / 30:
+134021/134021 loss: 0.2803 ET: 3 h 57 m 14 s
+  10670/10670 loss: 0.1593 {tok/fine P: 95.80% R: 95.59% F1: 95.69%}{tok/coarse P: 94.51% R: 94.70% F1: 94.61%}{pos/ctb Accuracy:96.38%}{pos/pku Accuracy:96.95%}{pos/863 Accuracy:94.29%}{ner/pku P: 94.91% R: 95.96% F1: 95.43%}{ner/msra P: 92.57% R: 94.73% F1: 93.64%}{ner/ontonotes P: 71.05% R: 77.93% F1: 74.33%}{srl P: 69.00% R: 73.12% F1: 71.00%}{dep UAS: 85.94% LAS: 81.83%}{sdp UF: 83.42% LF: 71.55%}{con UCM: 37.61% LCM: 33.47% UP: 89.42% UR: 89.24% UF: 89.33% LP: 86.46% LR: 86.29% LF: 86.38%} ET: 6 m 17 s
+Epoch 6 / 30:
+134021/134021 loss: 0.2677 ET: 3 h 53 m 55 s
+  10670/10670 loss: 0.1588 {tok/fine P: 95.80% R: 95.43% F1: 95.62%}{tok/coarse P: 94.81% R: 94.65% F1: 94.73%}{pos/ctb Accuracy:96.43%}{pos/pku Accuracy:97.03%}{pos/863 Accuracy:94.41%}{ner/pku P: 94.40% R: 96.26% F1: 95.32%}{ner/msra P: 91.57% R: 95.64% F1: 93.56%}{ner/ontonotes P: 72.42% R: 77.17% F1: 74.72%}{srl P: 72.76% R: 71.80% F1: 72.28%}{dep UAS: 86.30% LAS: 82.15%}{sdp UF: 84.03% LF: 71.99%}{con UCM: 38.16% LCM: 33.88% UP: 90.13% UR: 88.97% UF: 89.55% LP: 87.26% LR: 86.13% LF: 86.69%} ET: 6 m 17 s
+Epoch 7 / 30:
+134021/134021 loss: 0.2567 ET: 3 h 51 m 8 s
+  10670/10670 loss: 0.1573 {tok/fine P: 95.91% R: 95.49% F1: 95.70%}{tok/coarse P: 95.05% R: 94.68% F1: 94.86%}{pos/ctb Accuracy:96.50%}{pos/pku Accuracy:97.07%}{pos/863 Accuracy:94.41%}{ner/pku P: 94.86% R: 96.02% F1: 95.44%}{ner/msra P: 92.75% R: 95.30% F1: 94.01%}{ner/ontonotes P: 69.74% R: 77.87% F1: 73.58%}{srl P: 78.69% R: 65.13% F1: 71.27%}{dep UAS: 86.34% LAS: 82.30%}{sdp UF: 84.00% LF: 72.14%}{con UCM: 37.94% LCM: 33.73% UP: 89.58% UR: 89.51% UF: 89.54% LP: 86.68% LR: 86.61% LF: 86.65%} ET: 5 m 36 s
+Epoch 8 / 30:
+134021/134021 loss: 0.2483 ET: 3 h 55 m 35 s
+  10670/10670 loss: 0.1558 {tok/fine P: 95.87% R: 95.48% F1: 95.67%}{tok/coarse P: 95.08% R: 94.73% F1: 94.91%}{pos/ctb Accuracy:96.42%}{pos/pku Accuracy:97.09%}{pos/863 Accuracy:94.53%}{ner/pku P: 94.93% R: 96.23% F1: 95.58%}{ner/msra P: 94.70% R: 95.06% F1: 94.88%}{ner/ontonotes P: 76.06% R: 76.50% F1: 76.28%}{srl P: 77.18% R: 67.14% F1: 71.81%}{dep UAS: 86.47% LAS: 82.43%}{sdp UF: 84.34% LF: 72.52%}{con UCM: 38.31% LCM: 34.00% UP: 89.60% UR: 89.78% UF: 89.69% LP: 86.69% LR: 86.86% LF: 86.77%} ET: 5 m 45 s
+Epoch 9 / 30:
+134021/134021 loss: 0.2414 ET: 3 h 56 m 30 s
+  10670/10670 loss: 0.1533 {tok/fine P: 96.05% R: 95.70% F1: 95.87%}{tok/coarse P: 95.22% R: 94.84% F1: 95.03%}{pos/ctb Accuracy:96.52%}{pos/pku Accuracy:97.14%}{pos/863 Accuracy:94.52%}{ner/pku P: 95.08% R: 96.16% F1: 95.61%}{ner/msra P: 92.83% R: 95.56% F1: 94.18%}{ner/ontonotes P: 72.43% R: 77.55% F1: 74.90%}{srl P: 75.28% R: 71.25% F1: 73.21%}{dep UAS: 86.84% LAS: 82.82%}{sdp UF: 84.98% LF: 73.07%}{con UCM: 38.67% LCM: 34.93% UP: 89.85% UR: 89.80% UF: 89.82% LP: 86.97% LR: 86.92% LF: 86.94%} ET: 6 m 4 s
+Epoch 10 / 30:
+134021/134021 loss: 0.2340 ET: 4 h 3 m 44 s
+  10670/10670 loss: 0.1558 {tok/fine P: 95.94% R: 95.53% F1: 95.73%}{tok/coarse P: 95.00% R: 95.02% F1: 95.01%}{pos/ctb Accuracy:96.58%}{pos/pku Accuracy:97.20%}{pos/863 Accuracy:94.55%}{ner/pku P: 95.03% R: 96.19% F1: 95.61%}{ner/msra P: 94.02% R: 95.94% F1: 94.97%}{ner/ontonotes P: 74.07% R: 78.32% F1: 76.13%}{srl P: 76.57% R: 70.23% F1: 73.26%}{dep UAS: 86.90% LAS: 82.90%}{sdp UF: 84.72% LF: 72.76%}{con UCM: 38.38% LCM: 34.42% UP: 89.99% UR: 89.59% UF: 89.79% LP: 87.17% LR: 86.78% LF: 86.98%} ET: 5 m 46 s
+Epoch 11 / 30:
+134021/134021 loss: 0.2276 ET: 3 h 59 m 3 s
+  10670/10670 loss: 0.1540 {tok/fine P: 95.91% R: 96.06% F1: 95.99%}{tok/coarse P: 95.12% R: 95.12% F1: 95.12%}{pos/ctb Accuracy:96.60%}{pos/pku Accuracy:97.21%}{pos/863 Accuracy:94.58%}{ner/pku P: 95.18% R: 95.83% F1: 95.50%}{ner/msra P: 93.36% R: 96.06% F1: 94.69%}{ner/ontonotes P: 71.35% R: 78.75% F1: 74.86%}{srl P: 77.76% R: 69.84% F1: 73.59%}{dep UAS: 86.87% LAS: 82.93%}{sdp UF: 84.69% LF: 72.86%}{con UCM: 39.04% LCM: 35.28% UP: 89.94% UR: 89.84% UF: 89.89% LP: 87.16% LR: 87.07% LF: 87.11%} ET: 6 m 2 s
+Epoch 12 / 30:
+134021/134021 loss: 0.2214 ET: 3 h 55 m 28 s
+  10670/10670 loss: 0.1526 {tok/fine P: 96.14% R: 95.77% F1: 95.96%}{tok/coarse P: 95.30% R: 94.93% F1: 95.12%}{pos/ctb Accuracy:96.62%}{pos/pku Accuracy:97.24%}{pos/863 Accuracy:94.66%}{ner/pku P: 94.77% R: 96.52% F1: 95.64%}{ner/msra P: 93.82% R: 95.73% F1: 94.76%}{ner/ontonotes P: 74.03% R: 78.27% F1: 76.09%}{srl P: 73.46% R: 73.96% F1: 73.71%}{dep UAS: 86.99% LAS: 83.04%}{sdp UF: 84.55% LF: 72.75%}{con UCM: 38.83% LCM: 35.32% UP: 89.98% UR: 89.88% UF: 89.93% LP: 87.25% LR: 87.15% LF: 87.20%} ET: 5 m 36 s
+Epoch 13 / 30:
+134021/134021 loss: 0.2166 ET: 3 h 55 m 14 s
+  10670/10670 loss: 0.1526 {tok/fine P: 96.31% R: 95.94% F1: 96.12%}{tok/coarse P: 95.35% R: 95.31% F1: 95.33%}{pos/ctb Accuracy:96.67%}{pos/pku Accuracy:97.33%}{pos/863 Accuracy:94.68%}{ner/pku P: 95.07% R: 96.39% F1: 95.73%}{ner/msra P: 93.55% R: 95.73% F1: 94.63%}{ner/ontonotes P: 72.67% R: 78.58% F1: 75.51%}{srl P: 76.36% R: 71.89% F1: 74.06%}{dep UAS: 87.19% LAS: 83.26%}{sdp UF: 85.06% LF: 73.20%}{con UCM: 39.18% LCM: 35.69% UP: 89.99% UR: 90.15% UF: 90.07% LP: 87.27% LR: 87.42% LF: 87.34%} ET: 6 m 25 s
+Epoch 14 / 30:
+134021/134021 loss: 0.2113 ET: 4 h 8 m 46 s
+  10670/10670 loss: 0.1513 {tok/fine P: 96.27% R: 96.09% F1: 96.18%}{tok/coarse P: 95.50% R: 95.21% F1: 95.36%}{pos/ctb Accuracy:96.65%}{pos/pku Accuracy:97.32%}{pos/863 Accuracy:94.73%}{ner/pku P: 95.40% R: 96.44% F1: 95.92%}{ner/msra P: 94.54% R: 95.34% F1: 94.94%}{ner/ontonotes P: 74.69% R: 76.90% F1: 75.78%}{srl P: 75.45% R: 73.02% F1: 74.21%}{dep UAS: 87.18% LAS: 83.24%}{sdp UF: 85.13% LF: 73.15%}{con UCM: 39.43% LCM: 35.72% UP: 90.34% UR: 89.98% UF: 90.16% LP: 87.66% LR: 87.31% LF: 87.48%} ET: 5 m 54 s
+Epoch 15 / 30:
+134021/134021 loss: 0.2064 ET: 4 h 7 m 44 s
+  10670/10670 loss: 0.1537 {tok/fine P: 96.34% R: 96.12% F1: 96.23%}{tok/coarse P: 95.75% R: 95.20% F1: 95.47%}{pos/ctb Accuracy:96.68%}{pos/pku Accuracy:97.35%}{pos/863 Accuracy:94.72%}{ner/pku P: 95.21% R: 96.65% F1: 95.93%}{ner/msra P: 94.55% R: 95.63% F1: 95.09%}{ner/ontonotes P: 75.80% R: 77.64% F1: 76.71%}{srl P: 75.98% R: 72.73% F1: 74.32%}{dep UAS: 87.16% LAS: 83.33%}{sdp UF: 84.86% LF: 73.01%}{con UCM: 39.53% LCM: 35.89% UP: 90.38% UR: 89.86% UF: 90.12% LP: 87.65% LR: 87.15% LF: 87.40%} ET: 5 m 59 s
+Epoch 16 / 30:
+134021/134021 loss: 0.2010 ET: 4 h 5 m 28 s
+  10670/10670 loss: 0.1518 {tok/fine P: 96.38% R: 96.17% F1: 96.28%}{tok/coarse P: 95.49% R: 95.34% F1: 95.41%}{pos/ctb Accuracy:96.70%}{pos/pku Accuracy:97.37%}{pos/863 Accuracy:94.79%}{ner/pku P: 95.39% R: 96.66% F1: 96.02%}{ner/msra P: 94.03% R: 96.09% F1: 95.05%}{ner/ontonotes P: 73.70% R: 77.89% F1: 75.73%}{srl P: 76.21% R: 72.92% F1: 74.53%}{dep UAS: 87.35% LAS: 83.49%}{sdp UF: 85.97% LF: 74.07%}{con UCM: 39.53% LCM: 35.84% UP: 90.13% UR: 90.25% UF: 90.19% LP: 87.40% LR: 87.52% LF: 87.46%} ET: 6 m 4 s
+Epoch 17 / 30:
+134021/134021 loss: 0.1975 ET: 3 h 58 m 4 s
+  10670/10670 loss: 0.1530 {tok/fine P: 96.40% R: 96.01% F1: 96.21%}{tok/coarse P: 95.56% R: 95.26% F1: 95.41%}{pos/ctb Accuracy:96.69%}{pos/pku Accuracy:97.38%}{pos/863 Accuracy:94.83%}{ner/pku P: 95.50% R: 96.52% F1: 96.01%}{ner/msra P: 94.58% R: 95.55% F1: 95.06%}{ner/ontonotes P: 75.56% R: 77.87% F1: 76.70%}{srl P: 77.88% R: 70.97% F1: 74.27%}{dep UAS: 87.28% LAS: 83.45%}{sdp UF: 85.47% LF: 73.57%}{con UCM: 39.71% LCM: 35.93% UP: 90.40% UR: 90.10% UF: 90.25% LP: 87.72% LR: 87.44% LF: 87.58%} ET: 5 m 38 s
+Epoch 18 / 30:
+134021/134021 loss: 0.1928 ET: 3 h 57 m 52 s
+  10670/10670 loss: 0.1529 {tok/fine P: 96.41% R: 96.22% F1: 96.31%}{tok/coarse P: 95.74% R: 95.47% F1: 95.61%}{pos/ctb Accuracy:96.76%}{pos/pku Accuracy:97.39%}{pos/863 Accuracy:94.81%}{ner/pku P: 95.13% R: 96.59% F1: 95.85%}{ner/msra P: 94.91% R: 95.87% F1: 95.38%}{ner/ontonotes P: 75.51% R: 77.81% F1: 76.64%}{srl P: 76.99% R: 72.44% F1: 74.65%}{dep UAS: 87.53% LAS: 83.70%}{sdp UF: 85.64% LF: 73.82%}{con UCM: 39.64% LCM: 35.94% UP: 90.45% UR: 90.18% UF: 90.31% LP: 87.79% LR: 87.52% LF: 87.66%} ET: 5 m 34 s
+Epoch 19 / 30:
+134021/134021 loss: 0.1884 ET: 3 h 58 m 57 s
+  10670/10670 loss: 0.1527 {tok/fine P: 96.48% R: 96.25% F1: 96.36%}{tok/coarse P: 95.64% R: 95.41% F1: 95.53%}{pos/ctb Accuracy:96.70%}{pos/pku Accuracy:97.40%}{pos/863 Accuracy:94.88%}{ner/pku P: 95.28% R: 96.49% F1: 95.88%}{ner/msra P: 94.37% R: 95.96% F1: 95.16%}{ner/ontonotes P: 73.87% R: 78.43% F1: 76.08%}{srl P: 77.50% R: 71.26% F1: 74.25%}{dep UAS: 87.58% LAS: 83.75%}{sdp UF: 85.85% LF: 73.99%}{con UCM: 39.62% LCM: 35.87% UP: 90.26% UR: 90.38% UF: 90.32% LP: 87.61% LR: 87.72% LF: 87.67%} ET: 5 m 51 s
+Epoch 20 / 30:
+134021/134021 loss: 0.1835 ET: 3 h 52 m 0 s
+  10670/10670 loss: 0.1563 {tok/fine P: 96.53% R: 95.98% F1: 96.25%}{tok/coarse P: 95.80% R: 95.28% F1: 95.54%}{pos/ctb Accuracy:96.76%}{pos/pku Accuracy:97.44%}{pos/863 Accuracy:94.90%}{ner/pku P: 95.54% R: 96.64% F1: 96.09%}{ner/msra P: 94.45% R: 95.96% F1: 95.20%}{ner/ontonotes P: 75.05% R: 77.70% F1: 76.35%}{srl P: 76.51% R: 72.98% F1: 74.70%}{dep UAS: 87.58% LAS: 83.79%}{sdp UF: 85.33% LF: 73.33%}{con UCM: 39.64% LCM: 35.86% UP: 90.19% UR: 90.45% UF: 90.32% LP: 87.52% LR: 87.78% LF: 87.65%} ET: 5 m 34 s
+Epoch 21 / 30:
+134021/134021 loss: 0.1799 ET: 3 h 53 m 43 s
+  10670/10670 loss: 0.1523 {tok/fine P: 96.61% R: 96.31% F1: 96.46%}{tok/coarse P: 95.89% R: 95.49% F1: 95.69%}{pos/ctb Accuracy:96.78%}{pos/pku Accuracy:97.47%}{pos/863 Accuracy:94.89%}{ner/pku P: 95.34% R: 96.55% F1: 95.94%}{ner/msra P: 95.44% R: 95.47% F1: 95.45%}{ner/ontonotes P: 75.12% R: 78.98% F1: 77.00%}{srl P: 76.92% R: 73.17% F1: 75.00%}{dep UAS: 87.65% LAS: 83.84%}{sdp UF: 85.63% LF: 73.75%}{con UCM: 40.05% LCM: 36.37% UP: 90.73% UR: 90.24% UF: 90.48% LP: 88.07% LR: 87.60% LF: 87.83%} ET: 5 m 45 s
+Epoch 22 / 30:
+134021/134021 loss: 0.1765 ET: 3 h 59 m 59 s
+  10670/10670 loss: 0.1520 {tok/fine P: 96.41% R: 96.50% F1: 96.46%}{tok/coarse P: 95.76% R: 95.66% F1: 95.71%}{pos/ctb Accuracy:96.80%}{pos/pku Accuracy:97.47%}{pos/863 Accuracy:94.91%}{ner/pku P: 95.69% R: 96.68% F1: 96.18%}{ner/msra P: 94.93% R: 95.95% F1: 95.43%}{ner/ontonotes P: 74.74% R: 77.48% F1: 76.09%}{srl P: 77.67% R: 72.97% F1: 75.25%}{dep UAS: 87.75% LAS: 84.00%}{sdp UF: 85.54% LF: 73.75%}{con UCM: 40.28% LCM: 36.70% UP: 90.52% UR: 90.41% UF: 90.47% LP: 87.90% LR: 87.79% LF: 87.85%} ET: 5 m 50 s
+Epoch 23 / 30:
+134021/134021 loss: 0.1713 ET: 3 h 56 m 2 s
+  10670/10670 loss: 0.1527 {tok/fine P: 96.56% R: 96.54% F1: 96.55%}{tok/coarse P: 95.78% R: 95.65% F1: 95.72%}{pos/ctb Accuracy:96.83%}{pos/pku Accuracy:97.48%}{pos/863 Accuracy:94.93%}{ner/pku P: 95.47% R: 96.57% F1: 96.02%}{ner/msra P: 94.17% R: 95.82% F1: 94.99%}{ner/ontonotes P: 74.89% R: 78.76% F1: 76.77%}{srl P: 77.74% R: 73.02% F1: 75.31%}{dep UAS: 87.80% LAS: 84.06%}{sdp UF: 85.58% LF: 73.78%}{con UCM: 40.14% LCM: 36.64% UP: 90.32% UR: 90.47% UF: 90.39% LP: 87.71% LR: 87.85% LF: 87.78%} ET: 5 m 34 s
+Epoch 24 / 30:
+134021/134021 loss: 0.1678 ET: 3 h 51 m 37 s
+  10670/10670 loss: 0.1537 {tok/fine P: 96.65% R: 96.50% F1: 96.57%}{tok/coarse P: 95.91% R: 95.65% F1: 95.78%}{pos/ctb Accuracy:96.82%}{pos/pku Accuracy:97.50%}{pos/863 Accuracy:94.96%}{ner/pku P: 95.67% R: 96.61% F1: 96.13%}{ner/msra P: 94.93% R: 95.95% F1: 95.43%}{ner/ontonotes P: 75.67% R: 77.25% F1: 76.45%}{srl P: 76.23% R: 74.48% F1: 75.34%}{dep UAS: 87.89% LAS: 84.19%}{sdp UF: 85.78% LF: 73.97%}{con UCM: 40.42% LCM: 36.67% UP: 90.66% UR: 90.42% UF: 90.54% LP: 88.06% LR: 87.83% LF: 87.95%} ET: 5 m 37 s
+Epoch 25 / 30:
+134021/134021 loss: 0.1644 ET: 3 h 50 m 34 s
+  10670/10670 loss: 0.1550 {tok/fine P: 96.60% R: 96.49% F1: 96.55%}{tok/coarse P: 95.87% R: 95.67% F1: 95.77%}{pos/ctb Accuracy:96.82%}{pos/pku Accuracy:97.51%}{pos/863 Accuracy:94.99%}{ner/pku P: 95.82% R: 96.49% F1: 96.15%}{ner/msra P: 95.14% R: 95.89% F1: 95.52%}{ner/ontonotes P: 74.83% R: 78.28% F1: 76.52%}{srl P: 76.84% R: 73.96% F1: 75.37%}{dep UAS: 87.85% LAS: 84.15%}{sdp UF: 85.62% LF: 73.80%}{con UCM: 40.45% LCM: 36.90% UP: 90.52% UR: 90.50% UF: 90.51% LP: 87.92% LR: 87.90% LF: 87.91%} ET: 5 m 42 s
+Epoch 26 / 30:
+134021/134021 loss: 0.1612 ET: 3 h 50 m 30 s
+  10670/10670 loss: 0.1575 {tok/fine P: 96.72% R: 96.59% F1: 96.66%}{tok/coarse P: 95.92% R: 95.77% F1: 95.85%}{pos/ctb Accuracy:96.83%}{pos/pku Accuracy:97.52%}{pos/863 Accuracy:95.00%}{ner/pku P: 95.79% R: 96.53% F1: 96.16%}{ner/msra P: 95.08% R: 96.18% F1: 95.63%}{ner/ontonotes P: 74.65% R: 77.70% F1: 76.15%}{srl P: 77.49% R: 73.84% F1: 75.62%}{dep UAS: 87.98% LAS: 84.27%}{sdp UF: 85.84% LF: 74.11%}{con UCM: 40.59% LCM: 36.81% UP: 90.62% UR: 90.54% UF: 90.58% LP: 88.02% LR: 87.94% LF: 87.98%} ET: 5 m 29 s
+Epoch 27 / 30:
+134021/134021 loss: 0.1578 ET: 3 h 53 m 42 s
+  10670/10670 loss: 0.1558 {tok/fine P: 96.72% R: 96.62% F1: 96.67%}{tok/coarse P: 95.99% R: 95.74% F1: 95.87%}{pos/ctb Accuracy:96.84%}{pos/pku Accuracy:97.52%}{pos/863 Accuracy:95.02%}{ner/pku P: 96.01% R: 96.54% F1: 96.27%}{ner/msra P: 95.30% R: 95.94% F1: 95.62%}{ner/ontonotes P: 75.26% R: 77.44% F1: 76.33%}{srl P: 77.34% R: 73.97% F1: 75.62%}{dep UAS: 87.93% LAS: 84.25%}{sdp UF: 85.75% LF: 73.95%}{con UCM: 40.58% LCM: 37.05% UP: 90.73% UR: 90.45% UF: 90.59% LP: 88.15% LR: 87.88% LF: 88.01%} ET: 6 m 7 s
+Epoch 28 / 30:
+134021/134021 loss: 0.1545 ET: 3 h 57 m 50 s
+  10670/10670 loss: 0.1569 {tok/fine P: 96.73% R: 96.61% F1: 96.67%}{tok/coarse P: 95.99% R: 95.77% F1: 95.88%}{pos/ctb Accuracy:96.85%}{pos/pku Accuracy:97.54%}{pos/863 Accuracy:95.02%}{ner/pku P: 95.80% R: 96.51% F1: 96.15%}{ner/msra P: 95.17% R: 96.07% F1: 95.62%}{ner/ontonotes P: 75.58% R: 77.93% F1: 76.74%}{srl P: 76.72% R: 74.77% F1: 75.74%}{dep UAS: 88.01% LAS: 84.32%}{sdp UF: 85.91% LF: 74.08%}{con UCM: 40.86% LCM: 37.09% UP: 90.66% UR: 90.58% UF: 90.62% LP: 88.07% LR: 87.98% LF: 88.03%} ET: 5 m 44 s
+Epoch 29 / 30:
+134021/134021 loss: 0.1515 ET: 3 h 55 m 30 s
+  10670/10670 loss: 0.1568 {tok/fine P: 96.74% R: 96.69% F1: 96.72%}{tok/coarse P: 95.93% R: 95.91% F1: 95.92%}{pos/ctb Accuracy:96.87%}{pos/pku Accuracy:97.53%}{pos/863 Accuracy:95.04%}{ner/pku P: 95.86% R: 96.56% F1: 96.21%}{ner/msra P: 95.14% R: 96.16% F1: 95.65%}{ner/ontonotes P: 75.03% R: 78.43% F1: 76.69%}{srl P: 77.38% R: 74.18% F1: 75.74%}{dep UAS: 88.10% LAS: 84.42%}{sdp UF: 85.97% LF: 74.22%}{con UCM: 40.84% LCM: 37.26% UP: 90.73% UR: 90.66% UF: 90.69% LP: 88.17% LR: 88.11% LF: 88.14%} ET: 5 m 37 s
+Epoch 30 / 30:
+134021/134021 loss: 0.1489 ET: 3 h 55 m 53 s
+  10670/10670 loss: 0.1576 {tok/fine P: 96.75% R: 96.65% F1: 96.70%}{tok/coarse P: 96.03% R: 95.84% F1: 95.93%}{pos/ctb Accuracy:96.87%}{pos/pku Accuracy:97.56%}{pos/863 Accuracy:95.05%}{ner/pku P: 95.89% R: 96.55% F1: 96.22%}{ner/msra P: 95.34% R: 96.14% F1: 95.74%}{ner/ontonotes P: 75.37% R: 78.27% F1: 76.79%}{srl P: 77.43% R: 74.27% F1: 75.81%}{dep UAS: 88.10% LAS: 84.44%}{sdp UF: 86.02% LF: 74.28%}{con UCM: 40.86% LCM: 37.26% UP: 90.74% UR: 90.64% UF: 90.69% LP: 88.18% LR: 88.08% LF: 88.13%} ET: 5 m 39 s

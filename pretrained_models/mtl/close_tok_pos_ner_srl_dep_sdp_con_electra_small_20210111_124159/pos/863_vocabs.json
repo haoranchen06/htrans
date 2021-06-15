@@ -1,0 +1,43 @@
+{
+  "tag": {
+    "mutable": false,
+    "unk_token": "w",
+    "pad_token": null,
+    "idx_to_token": [
+      "w",
+      "r",
+      "d",
+      "v",
+      "a",
+      "u",
+      "q",
+      "n",
+      "i",
+      "m",
+      "c",
+      "nh",
+      "p",
+      "nd",
+      "nt",
+      "e",
+      "nl",
+      "x",
+      "k",
+      "ns",
+      "ni",
+      "o",
+      "j",
+      "h",
+      "nz",
+      "vu",
+      "vl",
+      "nhf",
+      "vd",
+      "nhs",
+      "ws",
+      "mq",
+      "f",
+      "g"
+    ]
+  }
+}

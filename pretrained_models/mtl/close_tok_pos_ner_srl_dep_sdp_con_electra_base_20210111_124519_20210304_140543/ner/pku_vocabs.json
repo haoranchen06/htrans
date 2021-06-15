@@ -1,0 +1,19 @@
+{
+  "tag": {
+    "mutable": false,
+    "unk_token": "O",
+    "pad_token": null,
+    "idx_to_token": [
+      "O",
+      "S-nt",
+      "S-nr",
+      "B-nt",
+      "I-nt",
+      "E-nt",
+      "B-ns",
+      "I-ns",
+      "E-ns",
+      "S-ns"
+    ]
+  }
+}
