@@ -15,7 +15,8 @@ def remove_empty_str(inputs):
 
 
 def text_preprocess(sent):
-    return re.sub(' ', '', sent)
+    blank_pattern = u'( )|(\xa0)|(\u3000)'
+    return re.sub(blank_pattern, '', sent)
 
 
 def py2pyc(project_dir):
