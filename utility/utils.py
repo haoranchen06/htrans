@@ -15,7 +15,7 @@ def remove_empty_str(inputs):
 
 
 def text_preprocess(sent):
-    blank_pattern = u'( )|(\xa0)|(\u3000)'
+    blank_pattern = u'( )|(\xa0)|(\u3000)|(\t)|(\n)'
     return re.sub(blank_pattern, '', sent)
 
 
