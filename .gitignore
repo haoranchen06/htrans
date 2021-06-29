@@ -2,3 +2,4 @@
 *.jl
 *model.bin
 model.pt
+nbd_data_until_2021.txt

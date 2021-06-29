@@ -5,14 +5,19 @@
 # @File: redup.py
 # @Software: PyCharm
 # @Copyright：Copyright(c) 2021 Hundsun.com,Inc.All Rights Reserved
-import os.path
 
+import sys
+sys.path.append('..')
+
+import os.path
+import re
 from simhash import Simhash, SimhashIndex
 import pandas as pd
 import random
 from tqdm import tqdm
 import pickle
-from utility.utils import text_preprocess, remove_empty_str
+from utility.utils import text_preprocess, remove_empty_str, sentence_delimiters_pattern
+import jsonlines
 
 
 def simhash_slide(inputs):
@@ -43,6 +48,9 @@ if __name__ == '__main__':
     nbd_hybrid = []
     for i in nbd_list:
         df = pd.read_json(path_or_buf=os.path.join('data/nbd_data/', i), lines=True)
-        inputs = df['contents'].tolist()[:1000]
+        inputs = df['contents'].tolist()
         nbd_hybrid += inputs
     result = simhash_slide(nbd_hybrid)
+    random.shuffle(result)
+    f = open('data/nbd_data_until_2021.txt', 'w')
+    f.write('\n'.join(result))

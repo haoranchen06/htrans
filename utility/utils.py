@@ -10,6 +10,10 @@ import os
 import re
 
 
+sentence_delimiters = {'?', '!', '？', '！', '。', '……', '…', '\n'}
+sentence_delimiters_pattern = r'\?|!|？|！|。|……|…|\n'
+
+
 def remove_empty_str(inputs):
     return [i for i in inputs if i]
 
