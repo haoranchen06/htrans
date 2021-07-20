@@ -9,6 +9,7 @@ import compileall
 import os
 import re
 
+import torch
 
 sentence_delimiters = {'?', '!', '？', '！', '。', '……', '…', '\n'}
 sentence_delimiters_pattern = r'\?|!|？|！|。|……|…|\n'
@@ -35,3 +36,21 @@ def py2pyc(project_dir):
                 os.rename(src, dst)
             elif name[-3:] == '.py':
                 os.remove(os.path.join(root, name))
+
+
+def compute_seq_classification_acc(x, y):
+    """
+    :param x: predicted labels
+    :param y: validate labels
+    :return: different labels' accuracy
+    """
+    x = torch.tensor(x)
+    y = torch.tensor(y)
+    labels = set(y.tolist())
+    mask_dict = {label: y == label for label in labels}
+    labels_acc = dict()
+    matched_labels = x == y
+    for i in labels:
+        i_acc = sum(matched_labels * mask_dict[i]) / sum(mask_dict[i])
+        labels_acc[i] = i_acc
+    return labels_acc

@@ -44,13 +44,16 @@ def simhash_tfidf():
 
 
 if __name__ == '__main__':
-    nbd_list = ['20210317_finance_text.jl', '20210317_industry_text.jl', '20210319_money_text.jl', '20210319_stocks_text.jl']
-    nbd_hybrid = []
-    for i in nbd_list:
-        df = pd.read_json(path_or_buf=os.path.join('data/nbd_data/', i), lines=True)
-        inputs = df['contents'].tolist()
-        nbd_hybrid += inputs
-    result = simhash_slide(nbd_hybrid)
-    random.shuffle(result)
-    f = open('data/nbd_data_until_2021.txt', 'w')
-    f.write('\n'.join(result))
+    # nbd_list = ['20210317_finance_text.jl', '20210317_industry_text.jl', '20210319_money_text.jl', '20210319_stocks_text.jl']
+    # nbd_hybrid = []
+    # for i in nbd_list:
+    #     df = pd.read_json(path_or_buf=os.path.join('data/nbd_data/', i), lines=True)
+    #     inputs = df['contents'].tolist()
+    #     nbd_hybrid += inputs
+    # result = simhash_slide(nbd_hybrid)
+    # random.shuffle(result)
+    f = open('data/nbd_sentences_until_2021.txt')
+    data = f.read().split('\n')
+    data_10000 = data[:10000]
+    with open('data/t2v_sa_v1_0_1w.txt', 'w') as f:
+        f.write('\n'.join(data_10000))
