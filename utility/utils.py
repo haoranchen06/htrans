@@ -50,6 +50,7 @@ def compute_seq_classification_acc(x, y):
     mask_dict = {label: y == label for label in labels}
     labels_acc = dict()
     matched_labels = x == y
+    labels_acc[-1] = sum(matched_labels) / len(matched_labels)
     for i in labels:
         i_acc = sum(matched_labels * mask_dict[i]) / sum(mask_dict[i])
         labels_acc[i] = i_acc

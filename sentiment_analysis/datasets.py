@@ -10,6 +10,9 @@
 import torch
 from torch.utils.data import Dataset
 import pandas as pd
+from collections import Counter
+import random
+from torch.nn.functional import normalize
 
 
 t2v_sa_v1_train_emos = {116: '振奋人心', 117: '幽默诙谐', 118: '温馨幸福', 119: '轻松惬意', 120: '紧张危机', 121: '伤感忧郁'}
@@ -21,6 +24,21 @@ t2v_sa_v1_emos_refactor = {0: '振奋人心', 1: '幽默诙谐', 2: '温馨幸�
 t2v_sa_v1_pnn_refactor = {0: '负面', 1: '中性', 2: '正面'}
 label2emos = {value: key for key, value in t2v_sa_v1_emos_refactor.items()}
 label2pnn = {value: key for key, value in t2v_sa_v1_pnn_refactor.items()}
+
+
+def seq_classify_resample(texts, labels, seed=42):
+    random.seed(seed)
+    label_counter = Counter(labels)
+    weights = torch.tensor([1 / label_counter[label] for label in labels])
+    weights /= torch.min(weights)
+    indexes_sampler = []
+    for index, w in enumerate(weights.tolist()):
+        repeat_times = random.choices(population=[int(w), int(w)+1], weights=[int(w)+1-w, w-int(w)], k=1)[0]
+        indexes_sampler.extend([index][::] * repeat_times)
+    random.shuffle(indexes_sampler)
+    texts_sampler = [texts[i] for i in indexes_sampler]
+    labels_sampler = [labels[i] for i in indexes_sampler]
+    return texts_sampler, labels_sampler
 
 
 def read_t2v_sa_v1_train_emos(file_path):
@@ -88,14 +106,21 @@ def read_t2v_sa_v1_test_pnn(file_path):
 
 
 class T2VSADataset(Dataset):
-    def __init__(self, encodings, labels):
+    def __init__(self, encodings, labels, require_weight=True):
         self.encodings = encodings
         self.labels = labels
+        self.require_weight = require_weight
+        label_counter = Counter(labels)
+        weight = [1 / label_counter[i] for i in range(len(label_counter))]
+        weight = normalize(input=torch.tensor(weight), p=1, dim=0)
+        self.weight = weight
 
     def __getitem__(self, idx):
         item = {key: torch.tensor(val[idx]).detach() for key, val in self.encodings.items()}
         # item = {key: val[idx].clone().detach() for key, val in self.encodings.items()}
         item['labels'] = torch.tensor(self.labels[idx]).detach()
+        if self.require_weight:
+            item['weight'] = self.weight
         return item
 
     def __len__(self):
@@ -107,3 +132,4 @@ class T2VSADataset(Dataset):
 
 if __name__ == '__main__':
     texts_res, labels_res = read_t2v_sa_v1_train_emos('t2v_sa_v1_train.jsonl')
+    a, b = seq_classify_resample(texts_res, labels_res)
