@@ -47,7 +47,7 @@ def train_pnn():
         evaluation_strategy='epoch',
         save_total_limit=10,
         seed=42,
-        save_steps=100,
+        save_strategy='epoch',
     )
 
     model = BertForSequenceClassification.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext", config=bert_config)
@@ -63,7 +63,7 @@ def train_pnn():
 
 
 def train_emos():
-    os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
     tokenizer = BertTokenizer.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext")
     bert_config = BertConfig.from_json_file("../pretrained_models/chinese-roberta-wwm-ext/config.json")
     bert_config.num_labels = 7
@@ -73,25 +73,25 @@ def train_emos():
     val_texts, val_labels = read_t2v_sa_v1_test_emos('t2v_sa_v1_test.jsonl')
     train_encodings = tokenizer(train_texts, truncation=True, padding=True, max_length=128)
     val_encodings = tokenizer(val_texts, truncation=True, padding=True, max_length=128)
-    train_dataset = T2VSADataset(encodings=train_encodings, labels=train_labels, require_weight=False)
-    val_dataset = T2VSADataset(encodings=val_encodings, labels=val_labels, require_weight=False)
+    train_dataset = T2VSADataset(encodings=train_encodings, labels=train_labels, require_weight=True)
+    val_dataset = T2VSADataset(encodings=val_encodings, labels=val_labels, require_weight=True)
 
     training_args = TrainingArguments(
-        output_dir='./results/emos_baseline',  # output directory
+        output_dir='./results/emos_ghm',  # output directory
         num_train_epochs=4,  # total number of training epochs
         per_device_train_batch_size=32,  # batch size per device during training
         per_device_eval_batch_size=16,  # batch size for evaluation
         warmup_steps=10,  # number of warmup steps for learning rate scheduler
         weight_decay=0.01,  # strength of weight decay
-        logging_dir='./logs/emos_baseline',  # directory for storing logs
+        logging_dir='./logs/emos_ghm',  # directory for storing logs
         logging_steps=10,
         evaluation_strategy='epoch',
         save_total_limit=10,
         seed=42,
-        save_steps=100,
+        save_strategy='epoch',
     )
 
-    model = BertForSequenceClassification.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext", config=bert_config)
+    model = BertForSCWithWeight.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext", config=bert_config)
 
     trainer = Trainer(
         model=model,  # the instantiated 🤗 Transformers model to be trained
@@ -105,13 +105,13 @@ def train_emos():
 
 def test_emos():
     tokenizer = BertTokenizer.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext")
-    test_texts, test_labels = read_t2v_sa_v1_test_emos('t2v_sa_v1_test.jsonl')
+    test_texts, test_labels = read_t2v_sa_v1_train_emos('t2v_sa_v1_train.jsonl')
     test_encodings = tokenizer(test_texts, truncation=True, padding=True, max_length=128)
     test_dataset = T2VSADataset(encodings=test_encodings, labels=test_labels)
     test_loader = DataLoader(test_dataset, batch_size=16)
 
-    device = torch.device('cuda:2')
-    model = BertForSequenceClassification.from_pretrained("results/emos_weighted/checkpoint-600")
+    device = torch.device('cuda:0')
+    model = BertForSequenceClassification.from_pretrained("results/emos_ghm/checkpoint-624")
     model.to(device)
     model.eval()
     predict = []
@@ -133,7 +133,7 @@ def test_pnn():
     test_dataset = T2VSADataset(encodings=test_encodings, labels=test_labels)
     test_loader = DataLoader(test_dataset, batch_size=16)
 
-    device = torch.device('cuda:2')
+    device = torch.device('cuda:1')
     model = BertForSequenceClassification.from_pretrained("results/pnn_baseline/checkpoint-600")
     model.to(device)
     model.eval()

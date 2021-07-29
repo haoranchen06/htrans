@@ -20,6 +20,9 @@ from transformers import BertPreTrainedModel
 from torch.nn import CrossEntropyLoss, MSELoss
 from transformers.modeling_outputs import SequenceClassifierOutput
 from transformers import BertTokenizer, BertLMHeadModel, BertConfig, BertForMaskedLM
+from focal_loss import FocalLoss
+from math import log
+from ghm_loss import GHMCELoss
 
 
 class BertForSCWithWeight(BertPreTrainedModel):
@@ -79,7 +82,9 @@ class BertForSCWithWeight(BertPreTrainedModel):
                 loss_fct = MSELoss()
                 loss = loss_fct(logits.view(-1), labels.view(-1))
             else:
-                loss_fct = CrossEntropyLoss(weight=weight.view(-1, self.num_labels)[0])
+                # loss_fct = CrossEntropyLoss(weight=weight.view(-1, self.num_labels)[0])
+                # loss_fct = FocalLoss(alpha=weight.view(-1, self.num_labels)[0], gamma=1)
+                loss_fct = GHMCELoss(bins=10, alpha=0.5)
                 loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
 
         if not return_dict:
@@ -95,5 +100,6 @@ class BertForSCWithWeight(BertPreTrainedModel):
 
 
 if __name__ == '__main__':
-    config = BertConfig.from_pretrained('results/pnn_baseline/checkpoint-2500')
-    model = BertForSCWithWeight(config=config)
+    # config = BertConfig.from_pretrained('results/pnn_baseline/checkpoint-500')
+    # model = BertForSCWithWeight(config=config)
+    pass

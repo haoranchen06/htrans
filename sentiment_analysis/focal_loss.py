@@ -14,31 +14,28 @@ from torch.autograd import Variable
 
 
 class FocalLoss(nn.Module):
-    def __init__(self, gamma=0, alpha=None, size_average=True):
+    def __init__(self, gamma=2, alpha=None, size_average=True):
         super(FocalLoss, self).__init__()
         self.gamma = gamma
         self.alpha = alpha
-        if isinstance(alpha, (float, int)):
-            self.alpha = torch.Tensor([alpha, 1-alpha])
-        if isinstance(alpha, list):
-            self.alpha = torch.Tensor(alpha)
         self.size_average = size_average
 
     def forward(self, inputs, target):
-        if inputs.dim() > 2:
-            inputs = inputs.view(inputs.size(0), inputs.size(1), -1)  # N,C,H,W => N,C,H*W
-            inputs = inputs.transpose(1, 2)    # N,C,H*W => N,H*W,C
-            inputs = inputs.contiguous().view(-1, inputs.size(2))   # N,H*W,C => N*H*W,C
+        """
+        :param inputs: torch.tensor with dim of 2, batch_size * hidden_dim
+        :param target: torch.tensor
+        :return:
+        """
+        if inputs.dim() == 1:
+            inputs = inputs.view(1, -1)
         target = target.view(-1, 1)
 
-        log_pt = F.log_softmax(inputs)
+        log_pt = F.log_softmax(inputs, dim=1)
         log_pt = log_pt.gather(1, target)
         log_pt = log_pt.view(-1)
         pt = Variable(log_pt.data.exp())
 
         if self.alpha is not None:
-            if self.alpha.type() != inputs.data.type():
-                self.alpha = self.alpha.type_as(inputs.data)
             at = self.alpha.gather(0, target.data.view(-1))
             log_pt = log_pt * Variable(at)
 
@@ -50,7 +47,9 @@ class FocalLoss(nn.Module):
 
 
 if __name__ == '__main__':
-    loss_fct = FocalLoss()
-    a = torch.Tensor(3)
-    b = torch.tensor(1)
-    res = loss_fct(a, b)
+    fl_fct = FocalLoss(gamma=2)
+    cl_fct = torch.nn.CrossEntropyLoss()
+    a = torch.tensor([[0., 1., 0.], [1., 0., 0.]])
+    b = torch.tensor([1, 0])
+    fl = fl_fct(a, b)
+    cl = cl_fct(a, b)
