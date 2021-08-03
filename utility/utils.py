@@ -20,7 +20,7 @@ def remove_empty_str(inputs):
 
 
 def text_preprocess(sent):
-    blank_pattern = u'( )|(\xa0)|(\u3000)|(\t)|(\n)'
+    blank_pattern = u'( )|(\xa0)|(\u3000)|(\t)|(\n)|(▲)|(▼)'
     return re.sub(blank_pattern, '', sent)
 
 
@@ -55,3 +55,15 @@ def compute_seq_classification_acc(x, y):
         i_acc = sum(matched_labels * mask_dict[i]) / sum(mask_dict[i])
         labels_acc[i] = i_acc
     return labels_acc
+
+
+def split_retain_pattern(pattern, text):
+    iteration = re.finditer(pattern=pattern, string=text)
+    indexes = [0] + [i.span()[1] for i in iteration] + [len(text)]
+    sentences = []
+    for i in range(1, len(indexes)):
+        x, y = indexes[i-1], indexes[i]
+        sentence = text[x:y]
+        if sentence:
+            sentences.append(sentence)
+    return sentences
