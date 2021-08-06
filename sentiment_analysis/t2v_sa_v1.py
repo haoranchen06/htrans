@@ -105,12 +105,12 @@ def train_emos():
 
 def test_emos():
     tokenizer = BertTokenizer.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext")
-    test_texts, test_labels = read_t2v_sa_v1_train_emos('t2v_sa_v1_train.jsonl')
+    test_texts, test_labels = read_t2v_sa_v1_test_emos('t2v_sa_v1_test.jsonl')
     test_encodings = tokenizer(test_texts, truncation=True, padding=True, max_length=128)
     test_dataset = T2VSADataset(encodings=test_encodings, labels=test_labels)
     test_loader = DataLoader(test_dataset, batch_size=16)
 
-    device = torch.device('cuda:0')
+    device = torch.device('cpu')
     model = BertForSequenceClassification.from_pretrained("results/emos_ghm/checkpoint-624")
     model.to(device)
     model.eval()
