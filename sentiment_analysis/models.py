@@ -7,22 +7,12 @@
 # @Copyright：Copyright(c) 2021 Hundsun.com,Inc.All Rights Reserved
 
 
-import math
-import os
-import warnings
-from dataclasses import dataclass
-from typing import Optional, Tuple
-
 from transformers import BertModel
-import torch
 from torch import nn
 from transformers import BertPreTrainedModel
-from torch.nn import CrossEntropyLoss, MSELoss
+from torch.nn import MSELoss
 from transformers.modeling_outputs import SequenceClassifierOutput
-from transformers import BertTokenizer, BertLMHeadModel, BertConfig, BertForMaskedLM
-from focal_loss import FocalLoss
-from math import log
-from ghm_loss import GHMCELoss
+from utility.loss.ghm_loss import GHMCELoss
 
 
 class BertForSCWithWeight(BertPreTrainedModel):

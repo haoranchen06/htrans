@@ -20,7 +20,7 @@ from models import BertForSCWithWeight
 
 
 def train_ner():
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
+    os.environ['CUDA_VISIBLE_DEVICES'] = '1,3'
     tokenizer = BertTokenizer.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext")
     bert_config = BertConfig.from_json_file("../pretrained_models/chinese-roberta-wwm-ext/config.json")
     bert_config.num_labels = 15
@@ -33,7 +33,7 @@ def train_ner():
     training_args = TrainingArguments(
         output_dir='./results/ner_baseline',  # output directory
         num_train_epochs=4,  # total number of training epochs
-        per_device_train_batch_size=32,  # batch size per device during training
+        per_device_train_batch_size=16,  # batch size per device during training
         per_device_eval_batch_size=32,  # batch size for evaluation
         warmup_steps=10,  # number of warmup steps for learning rate scheduler
         weight_decay=0.01,  # strength of weight decay
@@ -42,6 +42,7 @@ def train_ner():
         evaluation_strategy='epoch',
         save_total_limit=10,
         seed=42,
+        gradient_accumulation_steps=4,
         save_strategy='epoch',
     )
 
