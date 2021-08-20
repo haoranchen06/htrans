@@ -69,7 +69,7 @@ class BertCrfForNer(BertPreTrainedModel):
 
         loss = None
         if labels is not None:
-            loss = self.crf(emissions=logits, tags=labels, mask=attention_mask)
+            loss = - self.crf(emissions=logits, tags=labels, mask=attention_mask)
 
         if not return_dict:
             output = (logits,) + outputs[2:]

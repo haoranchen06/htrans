@@ -65,11 +65,11 @@ def test_ner():
     train_texts, val_texts, train_labels, val_labels = train_test_split(train_texts, train_labels, test_size=.2,
                                                                         random_state=0)
     val_dataset = T2VNERDataset(texts=val_texts, labels=val_labels, tokenizer=tokenizer)
-    test_loader = DataLoader(val_dataset, batch_size=16)
+    test_loader = DataLoader(val_dataset, batch_size=64)
     id2label = val_dataset.id2label
 
     device = torch.device('cuda:0')
-    model = BertForTokenClassification.from_pretrained("results/ner_baseline/checkpoint-2056")
+    model = BertCrfForNer.from_pretrained("results/ner_baseline/checkpoint-2056")
     model.to(device)
     model.eval()
     predict_labels = []
@@ -80,7 +80,10 @@ def test_ner():
             attention_mask = batch['attention_mask'].to(device)
             labels = batch['labels'].to(device)
             outputs = model(input_ids, attention_mask=attention_mask, labels=labels)
-            pre_lb = torch.argmax(outputs.logits, dim=2).tolist()
+            tags = model.crf.decode(outputs.logits, batch['attention_mask'].to(device)).squeeze().cpu()
+            if len(tags.shape) == 1:
+                tags = tags.unsqueeze(0)
+            pre_lb = tags.tolist()
             pre_lb = [[id2label[j] for j in i[1:-1]] for i in pre_lb]
             predict_labels.extend(pre_lb)
     metrics.update(val_labels, predict_labels)
@@ -88,5 +91,6 @@ def test_ner():
 
 
 if __name__ == '__main__':
-    train_ner()
+    # train_ner()
     # test_res = test_ner()
+    pass
