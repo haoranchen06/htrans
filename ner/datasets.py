@@ -6,6 +6,9 @@
 # @Software: PyCharm
 # @Copyright：Copyright(c) 2021 Hundsun.com,Inc.All Rights Reserved
 
+import sys
+sys.path.append('..')
+
 import torch
 from torch.utils.data import Dataset
 import pandas as pd
@@ -69,7 +72,7 @@ class T2VNERDataset(Dataset):
         self.texts = texts
         self.labels = labels
         self.tokenizer = tokenizer
-        self.label2id, _ = generate_ner_labels(t2v_ner_v2_labels)
+        self.label2id, self.id2label = generate_ner_labels(t2v_ner_v2_labels)
 
     def __getitem__(self, idx):
         item = self.tokenizer(self.texts[idx], return_tensors='pt', padding='max_length', truncation=True, max_length=256)
