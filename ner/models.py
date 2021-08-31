@@ -26,8 +26,14 @@ from crf import CRF
 class BertCrfForNer(BertPreTrainedModel):
     def __init__(self, config):
         super(BertCrfForNer, self).__init__(config)
-        self.bert = BertModel(config)
+        self.bert = BertModel(config, add_pooling_layer=True)
         self.dropout = nn.Dropout(config.hidden_dropout_prob)
+        self.lstm = nn.LSTM(
+            input_size=config.hidden_size,
+            hidden_size=config.hidden_size // 2,
+            batch_first=True,
+            bidirectional=True,
+        )
         self.classifier = nn.Linear(config.hidden_size, config.num_labels)
         self.crf = CRF(num_tags=config.num_labels, batch_first=True)
         self.init_weights()
@@ -65,6 +71,7 @@ class BertCrfForNer(BertPreTrainedModel):
         )
         sequence_output = outputs[0]
         sequence_output = self.dropout(sequence_output)
+        sequence_output = self.lstm(sequence_output)[0]
         logits = self.classifier(sequence_output)
 
         loss = None

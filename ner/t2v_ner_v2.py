@@ -62,6 +62,7 @@ def train_ner_diy():
     bert_param_optimizer = list(model.bert.named_parameters())
     crf_param_optimizer = list(model.crf.named_parameters())
     linear_param_optimizer = list(model.classifier.named_parameters())
+    lstm_param_optimizer = list(model.lstm.named_parameters())
     optimizer_grouped_parameters = [
         {'params': [p for n, p in bert_param_optimizer if not any(nd in n for nd in no_decay)],
          'weight_decay': weight_decay, 'lr': learning_rate},
@@ -77,18 +78,23 @@ def train_ner_diy():
          'weight_decay': weight_decay, 'lr': crf_learning_rate},
         {'params': [p for n, p in linear_param_optimizer if any(nd in n for nd in no_decay)], 'weight_decay': 0.0,
          'lr': crf_learning_rate},
+
+        {'params': [p for n, p in lstm_param_optimizer if not any(nd in n for nd in no_decay)],
+         'weight_decay': weight_decay, 'lr': crf_learning_rate},
+        {'params': [p for n, p in lstm_param_optimizer if any(nd in n for nd in no_decay)], 'weight_decay': 0.0,
+         'lr': crf_learning_rate}
     ]
 
     optim = AdamW(optimizer_grouped_parameters, lr=learning_rate, eps=1e-8)
     scheduler = get_linear_schedule_with_warmup(optim, num_warmup_steps=int(0.02 * t_total),
                                                 num_training_steps=t_total)
     train_loss, val_loss = [], []
-    train_loss_acc = 0
 
     if torch.cuda.device_count() > 1:
         model = torch.nn.DataParallel(model)
 
     for epoch in range(num_epochs):
+        train_loss_acc = 0
         model.train()
         progress_bar = tqdm(train_loader, desc='| Epoch {:03d}'.format(epoch), leave=True, disable=False)
 
@@ -198,18 +204,22 @@ def test_ner():
     id2label = val_dataset.id2label
 
     device = torch.device('cuda:0')
-    model = BertCrfForNer.from_pretrained("results/ner_baseline/checkpoint-2056")
+    # model = BertCrfForNer.from_pretrained("results/ner_baseline/checkpoint-2056")
+    bert_config = BertConfig.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext")
+    bert_config.num_labels = 15
+    model = BertCrfForNer(config=bert_config)
+    model.load_state_dict(torch.load("results/ner_crf_lr/model_epoch3.pt"))
+
     model.to(device)
     model.eval()
     predict_labels = []
     metrics = SeqEntityScore(id2label=id2label)
     with torch.no_grad():
         for batch in tqdm(test_loader):
-            input_ids = batch['input_ids'].to(device)
-            attention_mask = batch['attention_mask'].to(device)
-            labels = batch['labels'].to(device)
-            outputs = model(input_ids, attention_mask=attention_mask, labels=labels)
-            tags = model.crf.decode(outputs.logits, batch['attention_mask'].to(device)).squeeze().cpu()
+            batch = tuple(t.cuda() for t in batch.values())
+            inputs = {"input_ids": batch[0], "token_type_ids": batch[1], "attention_mask": batch[2], "labels": batch[3]}
+            outputs = model.forward(**inputs, return_dict=True)
+            tags = model.crf.decode(outputs.logits).squeeze().cpu()
             if len(tags.shape) == 1:
                 tags = tags.unsqueeze(0)
             pre_lb = tags.tolist()
@@ -221,6 +231,7 @@ def test_ner():
 
 
 if __name__ == '__main__':
-    train_ner_diy()
-    # test_res = test_ner()
+    # train_ner_diy()
+    test_res = test_ner()
+    print(test_res)
     pass

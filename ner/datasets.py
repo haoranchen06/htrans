@@ -15,6 +15,7 @@ import pandas as pd
 import re
 from utility.utils import sentence_delimiters_pattern
 from transformers import BertTokenizer
+from ner_metrics import SeqEntityScore
 
 
 t2v_ner_v2_labels = ['PRODUCT', 'LOC', 'EVENT', 'FAC', 'GPE', 'ORG', 'PERSON']
@@ -96,3 +97,5 @@ if __name__ == '__main__':
     tokenizer = BertTokenizer.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext")
     dataset = T2VNERDataset(texts=texts, labels=labels, tokenizer=tokenizer)
     loader = DataLoader(dataset, batch_size=2)
+    metrics = SeqEntityScore(id2label=dataset.id2label)
+    metrics.update(labels, labels)
