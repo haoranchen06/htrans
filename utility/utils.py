@@ -8,7 +8,7 @@
 import compileall
 import os
 import re
-
+import matplotlib.pyplot as plt
 import torch
 
 sentence_delimiters = {'?', '!', '？', '！', '。', '……', '…', '\n'}
@@ -67,3 +67,15 @@ def split_retain_pattern(pattern, text):
         if sentence:
             sentences.append(sentence)
     return sentences
+
+
+def make_plot(train_loss, val_loss, save_dir):
+    plt.style.use('ggplot')
+    plt.figure()
+    plt.title('model')
+    plt.xlabel('num of epoch')
+    plt.ylabel('loss')
+    plt.plot(train_loss)
+    plt.plot(val_loss)
+    plt.legend(['train', 'validate'])
+    plt.savefig(save_dir)

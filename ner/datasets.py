@@ -10,10 +10,11 @@ import sys
 sys.path.append('..')
 
 import torch
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader
 import pandas as pd
 import re
 from utility.utils import sentence_delimiters_pattern
+from transformers import BertTokenizer
 
 
 t2v_ner_v2_labels = ['PRODUCT', 'LOC', 'EVENT', 'FAC', 'GPE', 'ORG', 'PERSON']
@@ -92,3 +93,6 @@ class T2VNERDataset(Dataset):
 
 if __name__ == '__main__':
     texts, labels = truncate_t2v_ner_v2('t2v_ner_v2_train.jsonl')
+    tokenizer = BertTokenizer.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext")
+    dataset = T2VNERDataset(texts=texts, labels=labels, tokenizer=tokenizer)
+    loader = DataLoader(dataset, batch_size=2)
