@@ -25,6 +25,7 @@ import logging
 from callback.lr_scheduler import get_linear_schedule_with_warmup
 from collections import OrderedDict
 from utility.utils import make_plot
+from pprint import pprint
 
 
 def train_ner_diy():
@@ -200,7 +201,7 @@ def test_ner():
     train_texts, val_texts, train_labels, val_labels = train_test_split(train_texts, train_labels, test_size=.2,
                                                                         random_state=0)
     val_dataset = T2VNERDataset(texts=val_texts, labels=val_labels, tokenizer=tokenizer)
-    test_loader = DataLoader(val_dataset, batch_size=64)
+    test_loader = DataLoader(val_dataset, batch_size=128)
     id2label = val_dataset.id2label
 
     device = torch.device('cuda:0')
@@ -212,26 +213,34 @@ def test_ner():
 
     model.to(device)
     model.eval()
-    predict_labels = []
+    predict_labels, gold_labels = [], []
     metrics = SeqEntityScore(id2label=id2label)
     with torch.no_grad():
         for batch in tqdm(test_loader):
             batch = tuple(t.cuda() for t in batch.values())
             inputs = {"input_ids": batch[0], "token_type_ids": batch[1], "attention_mask": batch[2], "labels": batch[3]}
             outputs = model.forward(**inputs, return_dict=True)
-            tags = model.crf.decode(outputs.logits).squeeze().cpu()
+            tags = model.crf.decode(outputs.logits, mask=inputs['attention_mask']).squeeze().cpu()
             if len(tags.shape) == 1:
                 tags = tags.unsqueeze(0)
             pre_lb = tags.tolist()
             # pre_lb = torch.argmax(outputs.logits, dim=2).cpu().tolist()
-            predict_labels.extend(pre_lb)
-    predict_labels = [[id2label[j] for j in i[1:len(val_labels[index])+1]] for index, i in enumerate(predict_labels)]
-    metrics.update(val_labels, predict_labels)
+
+            for i, j, k in zip(pre_lb, inputs['labels'].tolist(), inputs['attention_mask'].tolist()):
+                mask_cnt = sum(k)
+                predict_labels.append(i[1:mask_cnt-1])
+                gold_labels.append(j[1:mask_cnt-1])
+
+    metrics.update(gold_labels, predict_labels)
     return metrics.result()
 
 
+def predict_ner():
+    raise NotImplementedError
+
+
 if __name__ == '__main__':
-    # train_ner_diy()
-    test_res = test_ner()
-    print(test_res)
+    train_ner_diy()
+    # test_res = test_ner()
+    # pprint(test_res, sort_dicts=True)
     pass
