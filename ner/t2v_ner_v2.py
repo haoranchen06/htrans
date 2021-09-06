@@ -231,6 +231,19 @@ def test_ner():
                 predict_labels.append(i[1:mask_cnt-1])
                 gold_labels.append(j[1:mask_cnt-1])
 
+    mtc2 = SeqEntityScore(id2label=id2label)
+    we_show = []
+    for index, gl, pl in zip(range(len(gold_labels)), gold_labels, predict_labels):
+        mtc2.update([gl], [pl])
+        wrongs = [f for f in mtc2.founds if f not in mtc2.origins]
+        inputs = val_dataset[index]
+        input_ids = inputs['input_ids'][1:].tolist()
+        tokens = tokenizer.convert_ids_to_tokens(input_ids)
+        for we in wrongs:
+            we_show.append(''.join(tokens[we[1]:we[2]+1]).replace('##', ''))
+        mtc2.reset()
+    pprint(we_show[:100])
+
     metrics.update(gold_labels, predict_labels)
     return metrics.result()
 
@@ -240,7 +253,6 @@ def predict_ner():
 
 
 if __name__ == '__main__':
-    train_ner_diy()
-    # test_res = test_ner()
-    # pprint(test_res, sort_dicts=True)
-    pass
+    # train_ner_diy()
+    result = test_ner()
+    pprint(result, sort_dicts=True)

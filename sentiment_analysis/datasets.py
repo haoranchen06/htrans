@@ -14,6 +14,8 @@ from collections import Counter
 import random
 from torch.nn.functional import normalize
 
+t2v_sa_v2_train_emos = {123: '伤感忧郁', 124: '其他', 125: '幽默诙谐', 126: '振奋人心', 128: '温馨幸福', 129: '紧张危机', 131: '轻松惬意'}
+t2v_sa_v2_train_pnn = {122: '中性', 127: '正面', 130: '负面'}
 
 t2v_sa_v1_train_emos = {116: '振奋人心', 117: '幽默诙谐', 118: '温馨幸福', 119: '轻松惬意', 120: '紧张危机', 121: '伤感忧郁'}
 t2v_sa_v1_train_pnn = {113: '正面', 114: '负面', 115: '中性'}
