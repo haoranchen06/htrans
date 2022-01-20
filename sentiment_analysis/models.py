@@ -10,9 +10,10 @@
 from transformers import BertModel
 from torch import nn
 from transformers import BertPreTrainedModel
-from torch.nn import MSELoss
+from torch.nn import MSELoss, CrossEntropyLoss
 from transformers.modeling_outputs import SequenceClassifierOutput
 from utility.loss.ghm_loss import GHMCELoss
+from utility.loss.focal_loss import FocalLoss
 
 
 class BertForSCWithWeight(BertPreTrainedModel):
@@ -72,9 +73,9 @@ class BertForSCWithWeight(BertPreTrainedModel):
                 loss_fct = MSELoss()
                 loss = loss_fct(logits.view(-1), labels.view(-1))
             else:
-                # loss_fct = CrossEntropyLoss(weight=weight.view(-1, self.num_labels)[0])
+                loss_fct = CrossEntropyLoss(weight=weight.view(-1, self.num_labels)[0])
                 # loss_fct = FocalLoss(alpha=weight.view(-1, self.num_labels)[0], gamma=1)
-                loss_fct = GHMCELoss(bins=10, alpha=0.5)
+                # loss_fct = GHMCELoss(bins=10, alpha=0.5)
                 loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
 
         if not return_dict:

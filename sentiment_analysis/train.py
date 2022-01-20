@@ -21,15 +21,28 @@ from sklearn.model_selection import train_test_split
 from models import BertForSCWithWeight
 
 
+v1_emos_train_texts, v1_emos_train_labels = read_t2v_sa_v1_train_emos('t2v_sa_v1_train.jsonl')
+v2_emos_train_texts, v2_emos_train_labels = read_t2v_sa_v2_train_emos('t2v_sa_v2.jsonl')
+emos_train_texts = v1_emos_train_texts + v2_emos_train_texts
+emos_train_labels = v1_emos_train_labels + v2_emos_train_labels
+emos_test_texts, emos_test_labels = read_t2v_sa_v1_test_emos('t2v_sa_v1_test.jsonl')
+
+v1_pnn_train_texts, v1_pnn_train_labels = read_t2v_sa_v1_train_pnn('t2v_sa_v1_train.jsonl')
+v2_pnn_train_texts, v2_pnn_train_labels = read_t2v_sa_v2_train_pnn('t2v_sa_v2.jsonl')
+pnn_train_texts = v1_pnn_train_texts + v2_pnn_train_texts
+pnn_train_labels = v1_pnn_train_labels + v2_pnn_train_labels
+pnn_test_texts, pnn_test_labels = read_t2v_sa_v1_test_pnn('t2v_sa_v1_test.jsonl')
+
+
 def train_pnn():
     os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
     tokenizer = BertTokenizer.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext")
     bert_config = BertConfig.from_json_file("../pretrained_models/chinese-roberta-wwm-ext/config.json")
     bert_config.num_labels = 3
-    train_texts, train_labels = read_t2v_sa_v1_train_pnn('t2v_sa_v1_train.jsonl')
+    train_texts, train_labels = pnn_train_texts, pnn_train_labels
     # train_texts, val_texts, train_labels, val_labels = train_test_split(train_texts, train_labels, test_size=0.2,
     #                                                                     random_state=0, stratify=train_labels)
-    val_texts, val_labels = read_t2v_sa_v1_test_pnn('t2v_sa_v1_test.jsonl')
+    val_texts, val_labels = pnn_test_texts, pnn_test_labels
     train_encodings = tokenizer(train_texts, truncation=True, padding=True, max_length=128)
     val_encodings = tokenizer(val_texts, truncation=True, padding=True, max_length=128)
     train_dataset = T2VSADataset(encodings=train_encodings, labels=train_labels, require_weight=False)
@@ -67,10 +80,10 @@ def train_emos():
     tokenizer = BertTokenizer.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext")
     bert_config = BertConfig.from_json_file("../pretrained_models/chinese-roberta-wwm-ext/config.json")
     bert_config.num_labels = 7
-    train_texts, train_labels = read_t2v_sa_v1_train_emos('t2v_sa_v1_train.jsonl')
+    train_texts, train_labels = emos_train_texts, emos_train_labels
     # train_texts, val_texts, train_labels, val_labels = train_test_split(train_texts, train_labels, test_size=.2,
     #                                                                     random_state=0, stratify=train_labels)
-    val_texts, val_labels = read_t2v_sa_v1_test_emos('t2v_sa_v1_test.jsonl')
+    val_texts, val_labels = emos_test_texts, emos_test_labels
     train_encodings = tokenizer(train_texts, truncation=True, padding=True, max_length=128)
     val_encodings = tokenizer(val_texts, truncation=True, padding=True, max_length=128)
     train_dataset = T2VSADataset(encodings=train_encodings, labels=train_labels, require_weight=True)
@@ -105,7 +118,7 @@ def train_emos():
 
 def test_emos():
     tokenizer = BertTokenizer.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext")
-    test_texts, test_labels = read_t2v_sa_v1_test_emos('t2v_sa_v1_test.jsonl')
+    test_texts, test_labels = emos_test_texts, emos_test_labels
     test_encodings = tokenizer(test_texts, truncation=True, padding=True, max_length=128)
     test_dataset = T2VSADataset(encodings=test_encodings, labels=test_labels)
     test_loader = DataLoader(test_dataset, batch_size=16)
@@ -128,7 +141,7 @@ def test_emos():
 
 def test_pnn():
     tokenizer = BertTokenizer.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext")
-    test_texts, test_labels = read_t2v_sa_v1_test_pnn('t2v_sa_v1_test.jsonl')
+    test_texts, test_labels = pnn_test_texts, pnn_test_labels
     test_encodings = tokenizer(test_texts, truncation=True, padding=True, max_length=128)
     test_dataset = T2VSADataset(encodings=test_encodings, labels=test_labels)
     test_loader = DataLoader(test_dataset, batch_size=16)
