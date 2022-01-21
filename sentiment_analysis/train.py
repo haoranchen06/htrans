@@ -35,7 +35,7 @@ pnn_test_texts, pnn_test_labels = read_t2v_sa_v1_test_pnn('t2v_sa_v1_test.jsonl'
 
 
 def train_pnn():
-    os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
     tokenizer = BertTokenizer.from_pretrained("../pretrained_models/chinese-roberta-wwm-ext")
     bert_config = BertConfig.from_json_file("../pretrained_models/chinese-roberta-wwm-ext/config.json")
     bert_config.num_labels = 3
@@ -90,13 +90,13 @@ def train_emos():
     val_dataset = T2VSADataset(encodings=val_encodings, labels=val_labels, require_weight=True)
 
     training_args = TrainingArguments(
-        output_dir='./results/emos_ghm',  # output directory
+        output_dir='./results/emos_weighted',  # output directory
         num_train_epochs=4,  # total number of training epochs
         per_device_train_batch_size=32,  # batch size per device during training
         per_device_eval_batch_size=16,  # batch size for evaluation
         warmup_steps=10,  # number of warmup steps for learning rate scheduler
         weight_decay=0.01,  # strength of weight decay
-        logging_dir='./logs/emos_ghm',  # directory for storing logs
+        logging_dir='./logs/emos_weighted',  # directory for storing logs
         logging_steps=10,
         evaluation_strategy='epoch',
         save_total_limit=10,
@@ -123,8 +123,8 @@ def test_emos():
     test_dataset = T2VSADataset(encodings=test_encodings, labels=test_labels)
     test_loader = DataLoader(test_dataset, batch_size=16)
 
-    device = torch.device('cpu')
-    model = BertForSequenceClassification.from_pretrained("results/emos_ghm/checkpoint-624")
+    device = torch.device('cuda')
+    model = BertForSequenceClassification.from_pretrained("results/emos_weighted/checkpoint-624")
     model.to(device)
     model.eval()
     predict = []
@@ -146,7 +146,7 @@ def test_pnn():
     test_dataset = T2VSADataset(encodings=test_encodings, labels=test_labels)
     test_loader = DataLoader(test_dataset, batch_size=16)
 
-    device = torch.device('cuda:1')
+    device = torch.device('cuda')
     model = BertForSequenceClassification.from_pretrained("results/pnn_baseline/checkpoint-600")
     model.to(device)
     model.eval()
